@@ -30,3 +30,16 @@ def Mutual_Info(Y, X):
     I(Y;X) = H(Y) - H(Y|X)
     """
     return entropy(Y) - cEntropy(Y,X)
+
+# Calculating I(X,T) and I(T,Y)
+def information_plane(X,Y,activations_list, layers, EPOCHS):
+
+    I_XT = np.zeros((len(layers),EPOCHS))
+    I_TY = np.zeros((len(layers),EPOCHS))
+
+    for layer in range(0,len(layers)):
+        for epoch in range(0,EPOCHS):
+            I_XT[layer,epoch] = Mutual_Info(activations_list[epoch][layer][0],X)
+            I_TY[layer,epoch] = Mutual_Info(activations_list[epoch][layer][0],Y)
+
+    return I_XT,I_TY
